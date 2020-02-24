@@ -51,18 +51,42 @@ function Circle(x, y, dx, dy, radius, alpha = 1, key) {
   }
 }
 
-let circle = new Circle(200, 200, 4, 4, 30, 0.6)
+function Spaceship(src, x, y, width, height) {
+  this.img = new Image()
+  this.img.src = src
+  this.x = x
+  this.y = y
+  this.width = width
+  this.height = height
 
+  this.draw = () => {
+    c.drawImage(this.img, this.x, this.y, this.width, this.height)
+  }
+}
 
 const radius = 30
-
 const circles = new Map()
 for (let i = 0; i < 500; i++) {
   addCircle(i)
 }
 
-const img = new Image()
-img.src = 'spaceship.png'
+const spaceship = new Spaceship(
+  'spaceship.png',
+  innerWidth / 2 - 45,
+  innerHeight - 120,
+  90,
+  90
+)
+
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') {
+    spaceship.x -= 8
+  }
+
+  if (e.key === 'ArrowRight') {
+    spaceship.x += 8
+  }
+})
 
 function animate() {
   requestAnimationFrame(animate)
@@ -72,7 +96,7 @@ function animate() {
     value.update()
   }
 
-  c.drawImage(img, innerWidth / 2 - 50, innerHeight - 120, 100, 100)
+  spaceship.draw()
 }
 
 animate()
