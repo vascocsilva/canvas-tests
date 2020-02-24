@@ -10,8 +10,8 @@ function addCircle(key, randomY = true) {
   const y = randomY
     ? Math.random() * (innerHeight - radius * 2) + radius
     : 0
-  const dx = 0//(Math.random() - 0.5) * 4
-  const dy = 1//(Math.random() - 0.5) * 4
+  const dx = 0
+  const dy = 5
   const alpha = Math.random()
   circles.set(key, new Circle(x, y, dx, dy, radius, alpha, key))
 }
@@ -61,8 +61,8 @@ for (let i = 0; i < 500; i++) {
   addCircle(i)
 }
 
-console.log(circles);
-
+const img = new Image()
+img.src = 'spaceship.png'
 
 function animate() {
   requestAnimationFrame(animate)
@@ -71,6 +71,8 @@ function animate() {
   for (let [key, value] of circles) {
     value.update()
   }
+
+  c.drawImage(img, innerWidth / 2 - 50, innerHeight - 120, 100, 100)
 }
 
 animate()
