@@ -1,10 +1,24 @@
 const canvas = document.querySelector('#canvas')
+const c = canvas.getContext('2d')
+const spaceshipWidth = 90
+const spaceshipHeight = 90
+const spaceshipDx = 15
+
+let spaceship = null
+let circles = new Map()
+
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
 
-const c = canvas.getContext('2d')
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
 
-function addCircle(key, randomY = true) {
+  init()
+})
+
+
+function addCircle(map, key, randomY = true) {
   const radius = Math.random() * 3
   const x = Math.random() * (innerWidth - radius * 2) + radius
   const y = randomY
@@ -13,7 +27,7 @@ function addCircle(key, randomY = true) {
   const dx = 0
   const dy = 5
   const alpha = Math.random()
-  circles.set(key, new Circle(x, y, dx, dy, radius, alpha, key))
+  map.set(key, new Circle(x, y, dx, dy, radius, alpha, key))
 }
 
 function Circle(x, y, dx, dy, radius, alpha = 1, key) {
@@ -35,12 +49,12 @@ function Circle(x, y, dx, dy, radius, alpha = 1, key) {
   this.update = () => {
     if (this.x > innerWidth || this.x + this.radius < 0) {
       circles.delete(this.key)
-      addCircle(_.uniqueId(), false)
+      addCircle(circles, _.uniqueId(), false)
     }
 
     if (this.y > innerHeight || this.y + this.radius < 0) {
       circles.delete(this.key)
-      addCircle(_.uniqueId(), false)
+      addCircle(circles, _.uniqueId(), false)
     }
 
     this.x += this.dx
@@ -64,39 +78,53 @@ function Spaceship(src, x, y, width, height) {
   }
 }
 
-const radius = 30
-const circles = new Map()
-for (let i = 0; i < 500; i++) {
-  addCircle(i)
-}
 
-const spaceship = new Spaceship(
-  'spaceship.png',
-  innerWidth / 2 - 45,
-  innerHeight - 120,
-  90,
-  90
-)
 
 window.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowLeft') {
-    spaceship.x -= 8
-  }
+  if (
+    e.key === 'ArrowLeft'
+    && spaceship.x > -spaceshipDx
+    ) {
+      spaceship.x -= spaceshipDx
+    }
 
-  if (e.key === 'ArrowRight') {
-    spaceship.x += 8
-  }
-})
+    if (
+      e.key === 'ArrowRight'
+      && spaceship.x < innerWidth - spaceshipWidth + spaceshipDx
+      ) {
+        spaceship.x += spaceshipDx
+      }
+    })
 
-function animate() {
-  requestAnimationFrame(animate)
-  c.clearRect(0, 0, innerWidth, innerHeight)
+    function animate() {
+      requestAnimationFrame(animate)
+      c.clearRect(0, 0, innerWidth, innerHeight)
 
-  for (let [key, value] of circles) {
-    value.update()
+      for (let [key, value] of circles) {
+        value.update()
+
   }
 
   spaceship.draw()
 }
 
+function init() {
+  circles = new Map()
+
+  for (let i = 0; i < 500; i++) {
+    addCircle(circles, i)
+  }
+
+  spaceship = new Spaceship(
+    'spaceship.png',
+    innerWidth / 2 - 45,
+    innerHeight - 120,
+    spaceshipWidth,
+    spaceshipHeight
+  )
+
+  spaceship.draw()
+}
+
+init()
 animate()
