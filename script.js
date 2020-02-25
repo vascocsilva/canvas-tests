@@ -17,7 +17,6 @@ window.addEventListener('resize', () => {
   init()
 })
 
-
 function addCircle(map, key, randomY = true) {
   const radius = Math.random() * 3
   const x = Math.random() * (innerWidth - radius * 2) + radius
@@ -78,31 +77,28 @@ function Spaceship(src, x, y, width, height) {
   }
 }
 
-
-
 window.addEventListener('keydown', (e) => {
   if (
     e.key === 'ArrowLeft'
     && spaceship.x > -spaceshipDx
-    ) {
-      spaceship.x -= spaceshipDx
-    }
+  ) {
+    spaceship.x -= spaceshipDx
+  }
 
-    if (
-      e.key === 'ArrowRight'
-      && spaceship.x < innerWidth - spaceshipWidth + spaceshipDx
-      ) {
-        spaceship.x += spaceshipDx
-      }
-    })
+  if (
+    e.key === 'ArrowRight'
+    && spaceship.x < innerWidth - spaceshipWidth + spaceshipDx
+  ) {
+    spaceship.x += spaceshipDx
+  }
+})
 
-    function animate() {
-      requestAnimationFrame(animate)
-      c.clearRect(0, 0, innerWidth, innerHeight)
+function animate() {
+  requestAnimationFrame(animate)
+  c.clearRect(0, 0, innerWidth, innerHeight)
 
-      for (let [key, value] of circles) {
-        value.update()
-
+  for (let [key, value] of circles) {
+    value.update()
   }
 
   spaceship.draw()
