@@ -1,5 +1,6 @@
 import Spaceship from './spaceship'
 import Life from './life'
+import Points from './points'
 import { addCircle, addMeteor, destroyMeteor } from './utils'
 
 const canvas = document.querySelector('#canvas')
@@ -15,6 +16,7 @@ let circles = null
 let meteors = null
 let startTime = null
 let timer = null
+let points = null
 
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
@@ -50,6 +52,13 @@ window.addEventListener('keydown', (e) => {
     window.life = 100
     init()
     animate()
+  }
+
+  if (
+    e.key === 'l'
+    && window.life > 0
+  ) {
+    window.life = 0
   }
 })
 
@@ -88,14 +97,20 @@ function animate() {
 
     spaceship.draw()
     life.draw()
+    points.draw()
   } else {
-    const text = 'YOU LOST / enter to retry...'
+    const text = `GAME OVER\n - ${points.points} POINTS`
+    const hint = '(press enter to continue)'
     c.fillStyle = 'rgba(0, 0, 0, 0.8)'
     c.fillRect(0, 0, innerWidth, innerHeight)
     c.fillStyle = 'white'
-    c.font = '50px sans-serif';
+    c.font = '50px sans-serif'
     const textM = c.measureText(text)
     c.fillText(text, innerWidth / 2 - textM.width / 2 , innerHeight / 2)
+    c.fillStyle = 'red'
+    c.font = '20px sans-serif'
+    const textH = c.measureText(hint)
+    c.fillText(hint, innerWidth / 2 - textH.width / 2, (innerHeight / 2) + 40)
   }
 }
 
@@ -103,6 +118,7 @@ function init() {
   startTime = new Date()
   circles = new Map()
   meteors = new Map()
+  points = new Points(0, startTime.getTime())
 
   for (let i = 0; i < 500; i++) {
     addCircle(c, circles, i)
