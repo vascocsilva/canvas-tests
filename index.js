@@ -47,7 +47,7 @@ window.addEventListener('keydown', (e) => {
 
   if (
     e.key === 'Enter'
-    && window.life === 0
+    && window.life <= 0
   ) {
     window.life = 100
     init()

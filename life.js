@@ -1,7 +1,6 @@
 function Life() {
   this.hit = () => {
     window.life -= 10
-    console.log(window.life)
   }
 
   this.draw = () => {

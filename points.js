@@ -10,7 +10,7 @@ function Points(points, start) {
     c.fillStyle = 'white'
     c.font = '20px sans-serif';
     const textM = c.measureText(text)
-    c.fillText(text, 20, 20)
+    c.fillText(text, 20, 30)
   }
 }
 
