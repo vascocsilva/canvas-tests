@@ -71,8 +71,8 @@ function animate() {
     requestAnimationFrame(animate)
     c.clearRect(0, 0, innerWidth, innerHeight)
 
-    for (let [key, value] of circles) {
-      value.update()
+    for (let [key, circle] of circles) {
+      circle.update()
     }
 
     if (new Date() - startTime > 5000) {

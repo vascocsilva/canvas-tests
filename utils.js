@@ -14,12 +14,13 @@ export function addCircle(canvas, map, key, randomY = true) {
 }
 
 export function addMeteor(meteors, key) {
+  const drawPlanet = Math.random() * 10 < 2
   const meteor = new Meteor(
-    'meteor.png',
+    drawPlanet ? 'planet.png' : 'meteor.png',
     Math.random() * innerWidth,
     0,
     Math.floor(Math.random() * 10) + 5,
-    25,
+    drawPlanet ? 50 :25,
     50,
     (new Date()).getTime() + Math.random() * 3000
   )
