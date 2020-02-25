@@ -26,6 +26,7 @@ window.addEventListener('keydown', (e) => {
     e.key === 'ArrowLeft'
     && spaceship.x > -spaceshipDx
   ) {
+    spaceship.changeState('left')
     spaceship.x -= spaceshipDx
   }
 
@@ -33,8 +34,13 @@ window.addEventListener('keydown', (e) => {
     e.key === 'ArrowRight'
     && spaceship.x < innerWidth - spaceshipWidth + spaceshipDx
   ) {
+    spaceship.changeState('right')
     spaceship.x += spaceshipDx
   }
+})
+
+window.addEventListener('keyup', (e) => {
+  spaceship.changeState(null)
 })
 
 function animate() {
@@ -57,6 +63,8 @@ function init() {
 
   spaceship = new Spaceship(
     'spaceship.png',
+    'spaceship-left.png',
+    'spaceship-right.png',
     innerWidth / 2 - 45,
     innerHeight - 120,
     spaceshipWidth,
