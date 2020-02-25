@@ -27,8 +27,6 @@ window.addEventListener('resize', () => {
 })
 
 window.addEventListener('keydown', (e) => {
-  console.log(e.key);
-
   if (
     e.key === 'ArrowLeft'
     && spaceship.x > -spaceshipDx
@@ -90,6 +88,14 @@ function animate() {
 
     spaceship.draw()
     life.draw()
+  } else {
+    const text = 'YOU LOST / enter to retry...'
+    c.fillStyle = 'rgba(0, 0, 0, 0.8)'
+    c.fillRect(0, 0, innerWidth, innerHeight)
+    c.fillStyle = 'white'
+    c.font = '50px sans-serif';
+    const textM = c.measureText(text)
+    c.fillText(text, innerWidth / 2 - textM.width / 2 , innerHeight / 2)
   }
 }
 
