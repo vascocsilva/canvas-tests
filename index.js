@@ -82,7 +82,10 @@ function animate() {
           meteor.update()
 
           if (
-            meteor.y >= innerHeight - spaceship.height
+            (
+              meteor.y >= innerHeight - spaceship.height
+              && meteor.y <= innerHeight
+            )
             && (
               meteor.x > spaceship.x - spaceship.width / 2
               && meteor.x < spaceship.x + spaceship.width
