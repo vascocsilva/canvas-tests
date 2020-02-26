@@ -9,7 +9,20 @@ function Meteor(src, x, y, dy, width, height, timer = new Date()) {
   this.height = height
 
   this.draw = () => {
-    window.c.drawImage(this.img, this.x, this.y, this.width, this.height)
+    const rotate = true//this.y === 0
+
+    // if (rotate) {
+      console.log('entrei');
+
+      window.c.save()
+      window.c.translate(this.x, this.y)
+      window.c.rotate(Math.random() * 360)
+      window.c.translate(-this.x, -this.y)
+    // }
+
+    window.c.drawImage(this.img, rotate ? 0 : this.x, rotate ? 0 : this.y, this.width, this.height)
+
+    window.c.restore()
   }
 
   this.update = () => {

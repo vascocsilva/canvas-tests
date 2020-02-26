@@ -80,10 +80,7 @@ function animate() {
     }
 
     if (new Date() - startTime > 5000) {
-      if (points.updatedLevel) {
-        addMoreMeteors(meteors, points.level * 2)
-        console.log(meteors.size, points.level)
-      }
+      points.updatedLevel && addMoreMeteors(meteors, points.level * 2)
 
       let now = (new Date()).getTime()
       for (let [key, meteor] of meteors) {

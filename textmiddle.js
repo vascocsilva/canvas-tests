@@ -9,12 +9,9 @@ function TextMiddle(text, options = null) {
     y = options.y || y
   }
 
-
-
   window.c.fillStyle = color
   window.c.font = `${fontSize}px sans-serif`
   const textM = window.c.measureText(text)
-  console.log(text, options, window.c.font, window.c.fillStyle)
   window.c.fillText(text, innerWidth / 2 - textM.width / 2, y)
 }
 
