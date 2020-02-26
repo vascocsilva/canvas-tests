@@ -1,6 +1,7 @@
 import Spaceship from './spaceship'
 import Life from './life'
 import Points from './points'
+import Explosion from './explosion'
 import { addCircle, addMeteor, destroyMeteor } from './utils'
 
 const canvas = document.querySelector('#canvas')
@@ -10,9 +11,11 @@ const spaceshipWidth = 90
 const spaceshipHeight = 90
 const spaceshipDx = 15
 const life = new Life()
+const explosion = new Explosion(50, 50)
 
 let spaceship = null
 let circles = null
+let explosions = null
 let meteors = null
 let startTime = null
 let timer = null
@@ -91,6 +94,8 @@ function animate() {
               && meteor.x < spaceship.x + spaceship.width
             )
           ) {
+            const explosionId = _.uniqueId()
+            explosions.set(explosionId, new Explosion(meteor.x, meteor.y, explosionId, explosions))
             life.hit()
             destroyMeteor(meteors, key)
           }
@@ -101,6 +106,11 @@ function animate() {
     spaceship.draw()
     life.draw()
     points.draw()
+
+    for (let [key, explosion] of explosions) {
+      console.log(explosions.size)
+      explosion.draw()
+    }
   } else {
     const text = `GAME OVER\n - ${points.points} POINTS`
     const hint = '(press enter to continue)'
@@ -122,6 +132,7 @@ function init() {
   circles = new Map()
   meteors = new Map()
   points = new Points(0, startTime.getTime())
+  explosions = new Map()
 
   for (let i = 0; i < 500; i++) {
     addCircle(c, circles, i)
