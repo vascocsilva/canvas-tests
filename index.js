@@ -2,7 +2,8 @@ import Spaceship from './spaceship'
 import Life from './life'
 import Points from './points'
 import Explosion from './explosion'
-import { addCircle, addMeteor, destroyMeteor } from './utils'
+import TextMiddle from './textmiddle'
+import { addCircle, addMeteor, destroyMeteor, addMoreMeteors } from './utils'
 
 const canvas = document.querySelector('#canvas')
 window.c = canvas.getContext('2d')
@@ -79,6 +80,11 @@ function animate() {
     }
 
     if (new Date() - startTime > 5000) {
+      if (points.updatedLevel) {
+        addMoreMeteors(meteors, points.level * 2)
+        console.log(meteors.size, points.level)
+      }
+
       let now = (new Date()).getTime()
       for (let [key, meteor] of meteors) {
         if (meteor.timer < now) {
@@ -108,18 +114,15 @@ function animate() {
     points.draw()
 
     for (let [key, explosion] of explosions) {
-      console.log(explosions.size)
       explosion.draw()
     }
   } else {
-    const text = `GAME OVER\n - ${points.points} POINTS`
-    const hint = '(press enter to continue)'
-    c.fillStyle = 'rgba(0, 0, 0, 0.8)'
+    const text = `GAME OVER`
+    const hint = '(press enter to retry)'
+    c.fillStyle = 'rgba(0, 0, 0, 0.6)'
     c.fillRect(0, 0, innerWidth, innerHeight)
-    c.fillStyle = 'white'
-    c.font = '50px sans-serif'
-    const textM = c.measureText(text)
-    c.fillText(text, innerWidth / 2 - textM.width / 2 , innerHeight / 2)
+    TextMiddle('GAME OVER', { y: (innerHeight / 2) - 60 })
+    TextMiddle(`Points: ${points.points} | Level: ${points.level}`, { y: (innerHeight / 2) - 20, fontSize: 20, color: 'red' })
     c.fillStyle = 'red'
     c.font = '20px sans-serif'
     const textH = c.measureText(hint)
